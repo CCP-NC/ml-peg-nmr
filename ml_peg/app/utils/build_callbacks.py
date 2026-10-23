@@ -415,6 +415,7 @@ def struct_from_scatter(
     structs: str | list[str] | dict[str, str],
     mode: Literal["struct", "traj"] = "struct",
     follow_frames: bool | None = None,
+    highlights: list[list[int]] | None = None,
 ) -> None:
     """
     Attach callback to show a structure when a scatter point is clicked.
@@ -437,6 +438,10 @@ def struct_from_scatter(
         only for a single shared trajectory file. This is for e.g. a NEB, whereas a list
         of per-point files, including density-cell structure collections, keeps
         the highlight on the clicked point. Set explicitly to override.
+    highlights
+        Atom indices to highlight in the structure, one list per scatter point in
+        the same order as ``structs`` (e.g. the atomic site a point refers to).
+        Default is None (no highlight).
     """
     if follow_frames is None:
         follow_frames = mode == "traj" and isinstance(structs, str)
@@ -479,10 +484,11 @@ def struct_from_scatter(
         else:
             struct = structs[idx]
             index = 0
+        highlight = highlights[idx] if highlights else None
 
         return Div(
             Iframe(
-                srcDoc=generate_weas_html(struct, mode, index),
+                srcDoc=generate_weas_html(struct, mode, index, highlight),
                 style={
                     "height": "550px",
                     "width": "100%",

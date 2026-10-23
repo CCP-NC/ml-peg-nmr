@@ -10,6 +10,7 @@ def generate_weas_html(
     filename: str | Path,
     mode: Literal["struct", "traj"] = "struct",
     index: int = 0,
+    highlight: list[int] | None = None,
 ) -> str:
     """
     Generate HTML for WEAS.
@@ -25,6 +26,11 @@ def generate_weas_html(
         Frame of structure file to load, or of trajectory to view. In "struct" mode,
         all structures will be loaded by default. In "traj" mode, the first frame will
         be loaded by default.
+    highlight
+        Indices of atoms to mark, e.g. the atomic site a clicked point refers to:
+        a translucent green halo, a colour no common organic atom uses except
+        chlorine (WEAS multiplies highlight colours by its yellow base, so pinks
+        and blues render red). Default is None (no highlight).
 
     Returns
     -------
@@ -57,6 +63,18 @@ def generate_weas_html(
         requestAnimationFrame(__mlPegReportFrame);
         """
         if mode == "traj"
+        else ""
+    )
+
+    highlight_js = (
+        f"""
+        editor.avr.highlightManager.addSetting("site", {{
+            indices: {list(map(int, highlight))}, type: "sphere", color: "#00ff00",
+            scale: 2.2, opacity: 0.6,
+        }});
+        editor.avr.highlightManager.drawHighlightAtoms();
+        """
+        if highlight
         else ""
     )
 
@@ -138,6 +156,7 @@ def generate_weas_html(
 
         editor.avr.currentFrame = {frame};
         editor.render();
+        {highlight_js}
         {frame_reporter}
         </script>
     </body>

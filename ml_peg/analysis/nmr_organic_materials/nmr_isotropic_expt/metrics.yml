@@ -1,0 +1,43 @@
+metrics:
+  ¹H RMSE:
+    good: 0.4
+    bad: 1.0
+    unit: ppm
+    weight: 1
+    tooltip: "¹H predicted isotropic shifts against experiment (13 crystals), after one linear shielding-to-shift fit"
+    level_of_theory: Experimental
+  ¹³C RMSE:
+    good: 2.0
+    bad: 4.7
+    unit: ppm
+    weight: 1
+    tooltip: "¹³C predicted isotropic shifts against experiment (21 crystals), after one linear shielding-to-shift fit"
+    level_of_theory: Experimental
+  ¹⁵N RMSE:
+    good: 4.9
+    bad: 11.5
+    unit: ppm
+    weight: 1
+    tooltip: "¹⁵N predicted isotropic shifts against experiment (15 crystals), after one linear shielding-to-shift fit"
+    level_of_theory: Experimental
+  ¹H MAE:
+    good: 0.3
+    bad: 0.8
+    unit: ppm
+    weight: 1
+    tooltip: "Mean absolute error of the ¹H predicted isotropic shifts (13 crystals), about the same fitted line as the RMSE"
+    level_of_theory: Experimental
+  ¹³C MAE:
+    good: 1.6
+    bad: 3.8
+    unit: ppm
+    weight: 1
+    tooltip: "Mean absolute error of the ¹³C predicted isotropic shifts (21 crystals), about the same fitted line as the RMSE"
+    level_of_theory: Experimental
+  ¹⁵N MAE:
+    good: 3.7
+    bad: 8.8
+    unit: ppm
+    weight: 1
+    tooltip: "Mean absolute error of the ¹⁵N predicted isotropic shifts (15 crystals), about the same fitted line as the RMSE"
+    level_of_theory: Experimental

@@ -1,0 +1,182 @@
+implementers:
+  - name: "Sathya Sai Seetharaman"
+    github: "Sathya-S3"
+    email: "sathya-sai.seetharaman@stfc.ac.uk"
+
+contributors:
+  - name: "Kane Shenton"
+    github: "jkshenton"
+    email: "kane.shenton@stfc.ac.uk"
+
+citations:
+  - key: "kellner-2025-shiftml3"
+    role: benchmark_method
+    title: "A Deep Learning Model for Chemical Shieldings in Molecular Organic Solids Including Anisotropy"
+    authors:
+      - "Matthias Kellner"
+      - "Jacob B. Holmes"
+      - "Ruben Rodriguez Madrid"
+      - "Florian Viscosi"
+      - "Yuxuan Zhang"
+      - "Lyndon Emsley"
+      - "Michele Ceriotti"
+    year: 2025
+    doi: "10.1021/acs.jpclett.5c01819"
+    url: null
+  - key: "ramos-2024-functional"
+    role: reference_data
+    title: "The interplay of density functional selection and crystal structure for accurate NMR chemical shift predictions"
+    authors:
+      - "Sebastian A. Ramos"
+      - "Leonard J. Mueller"
+      - "Gregory J. O. Beran"
+    year: 2024
+    doi: "10.1039/D4FD00072B"
+    url: null
+  - key: "carignani-2013-naproxen"
+    role: reference_data
+    title: "Strong Intermolecular Ring Current Influence on 1H Chemical Shifts in Two Crystalline Forms of Naproxen: a Combined Solid-State NMR and DFT Study"
+    authors:
+      - "Elisa Carignani"
+      - "Silvia Borsacchi"
+      - "Jonathan P. Bradley"
+      - "Steven P. Brown"
+      - "Marco Geppi"
+    year: 2013
+    doi: "10.1021/jp4044946"
+    url: null
+  - key: "uldry-2008-hydrogen"
+    role: reference_data
+    title: "Quantifying Weak Hydrogen Bonding in Uracil and 4-Cyano-4'-ethynylbiphenyl: A Combined Computational and Experimental Investigation of NMR Chemical Shifts in the Solid State"
+    authors:
+      - "Anne-Christine Uldry"
+      - "John M. Griffin"
+      - "Jonathan R. Yates"
+      - "Marta Pérez-Torralba"
+      - "M. Dolores Santa María"
+      - "Amy L. Webber"
+      - "Maximus L. L. Beaumont"
+      - "Ago Samoson"
+      - "Rosa María Claramunt"
+      - "Chris J. Pickard"
+      - "Steven P. Brown"
+    year: 2008
+    doi: "10.1021/ja075892i"
+    url: null
+  - key: "sardo-2015-diazole"
+    role: reference_data
+    title: "Diazole-based powdered cocrystal featuring a helical hydrogen-bonded network: Structure determination from PXRD, solid-state NMR and computer modeling"
+    authors:
+      - "Mariana Sardo"
+      - "Sérgio M. Santos"
+      - "Artem A. Babaryk"
+      - "Concepción López"
+      - "Ibon Alkorta"
+      - "José Elguero"
+      - "Rosa M. Claramunt"
+      - "Luís Mafra"
+    year: 2015
+    doi: "10.1016/j.ssnmr.2014.12.005"
+    url: null
+  - key: "baias-2013-powder"
+    role: reference_data
+    title: "Powder crystallography of pharmaceutical materials by combined crystal structure prediction and solid-state 1H NMR spectroscopy"
+    authors:
+      - "Maria Baias"
+      - "Cory M. Widdifield"
+      - "Jean-Nicolas Dumez"
+      - "Hugh P. G. Thompson"
+      - "Timothy G. Cooper"
+      - "Elodie Salager"
+      - "Sirena Bassil"
+      - "Robin S. Stein"
+      - "Anne Lesage"
+      - "Graeme M. Day"
+      - "Lyndon Emsley"
+    year: 2013
+    doi: "10.1039/c3cp41095a"
+    url: null
+  - key: "widdifield-2016-furosemide"
+    role: reference_data
+    title: "Furosemide's One Little Hydrogen Atom: NMR Crystallography Structure Verification of Powdered Molecular Organics"
+    authors:
+      - "Cory M. Widdifield"
+      - "Harry Robson"
+      - "Paul Hodgkinson"
+    year: 2016
+    doi: "10.1039/C6CC02171A"
+    url: null
+  - key: "maruyoshi-2012-cocrystal"
+    role: reference_data
+    title: "Identifying the intermolecular hydrogen-bonding supramolecular synthons in an indomethacin-nicotinamide cocrystal by solid-state NMR"
+    authors:
+      - "Keisuke Maruyoshi"
+      - "Dinu Iuga"
+      - "Oleg N. Antzutkin"
+      - "Amjad Alhalaweh"
+      - "Sitaram P. Velaga"
+      - "Steven P. Brown"
+    year: 2012
+    doi: "10.1039/C2CC36094B"
+    url: null
+  - key: "mifsud-2006-penicillin"
+    role: reference_data
+    title: "Assigning powders to crystal structures by high resolution 1H-1H double quantum and 1H-13C J-INEPT solid-state NMR spectroscopy and first principles computation. A case study of penicillin G"
+    authors:
+      - "Nicolas Mifsud"
+      - "Bénédicte Elena"
+      - "Chris J. Pickard"
+      - "Anne Lesage"
+      - "Lyndon Emsley"
+    year: 2006
+    doi: "10.1039/b605227d"
+    url: null
+  - key: "baias-2013-denovo"
+    role: reference_data
+    title: "De Novo Determination of the Crystal Structure of a Large Drug Molecule by Crystal Structure Prediction-Based Powder NMR Crystallography"
+    authors:
+      - "Maria Baias"
+      - "Jean-Nicolas Dumez"
+      - "Per H. Svensson"
+      - "Staffan Schantz"
+      - "Graeme M. Day"
+      - "Lyndon Emsley"
+    year: 2013
+    doi: "10.1021/ja4088874"
+    url: null
+  - key: "gervais-2004-phenylphosphonic"
+    role: reference_data
+    title: "Combined ab initio computational and experimental multinuclear solid-state magnetic resonance study of phenylphosphonic acid"
+    authors:
+      - "Christel Gervais"
+      - "Mickaël Profeta"
+      - "Vincent Lafond"
+      - "Christian Bonhomme"
+      - "Thierry Azaïs"
+      - "Hubert Mutin"
+      - "Chris J. Pickard"
+      - "Francesco Mauri"
+      - "Florence Babonneau"
+    year: 2004
+    doi: "10.1002/mrc.1360"
+    url: null
+  - key: "cordova-2021-amorphous"
+    role: reference_data
+    title: "Structure determination of an amorphous drug through large-scale NMR predictions"
+    authors:
+      - "Manuel Cordova"
+      - "Martins Balodis"
+      - "Albert Hofstetter"
+      - "Federico Paruzzo"
+      - "Sten O. Nilsson Lill"
+      - "Emma S. E. Eriksson"
+      - "Pierrick Berruyer"
+      - "Bruno Simões de Almeida"
+      - "Michael J. Quayle"
+      - "Stefan T. Norberg"
+      - "Anna Svensk Ankarberg"
+      - "Staffan Schantz"
+      - "Lyndon Emsley"
+    year: 2021
+    doi: "10.1038/s41467-021-23208-7"
+    url: null

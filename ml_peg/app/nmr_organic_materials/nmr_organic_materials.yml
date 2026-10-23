@@ -1,0 +1,9 @@
+title: NMR Models – Organic Materials
+description: NMR chemical shieldings of molecular organic crystals, predicted by machine-learned shielding models
+# Weight 0 keeps this category out of the overall score: its models predict NMR
+# shieldings and are not interatomic potentials. They are listed in
+# ml_peg/models/nmr_models.yml, not models.yml.
+weight: 0
+# One crystal only, so it does not count towards the category score.
+benchmark_weights:
+  Structure Identification - Cocaine: 0

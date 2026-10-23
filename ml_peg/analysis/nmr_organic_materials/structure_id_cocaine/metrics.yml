@@ -1,0 +1,22 @@
+metrics:
+  Identification margin:
+    good: 0.3
+    bad: 0.0
+    unit: ppm
+    weight: 1
+    tooltip: "¹H RMSE of the best wrong candidate minus that of the correct structure; higher is better, ≤ 0 means not identified"
+    level_of_theory: Experimental
+  Rank of correct structure:
+    good: 1
+    bad: 5
+    unit: null
+    weight: 0
+    tooltip: "Rank of the correct structure among the 29 candidates by ¹H RMSE against experiment (1 = identified). Not scored (weight 0)"
+    level_of_theory: Experimental
+  ¹H RMSE (correct structure):
+    good: 0.3
+    bad: 0.7
+    unit: ppm
+    weight: 0
+    tooltip: "¹H RMSE of the correct structure against experiment (17 sites; slope −1, intercept fitted per candidate). Not scored (weight 0)"
+    level_of_theory: Experimental

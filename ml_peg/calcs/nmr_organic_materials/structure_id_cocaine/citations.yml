@@ -1,0 +1,65 @@
+implementers:
+  - name: "Sathya Sai Seetharaman"
+    github: "Sathya-S3"
+    email: "sathya-sai.seetharaman@stfc.ac.uk"
+
+contributors:
+  - name: "Kane Shenton"
+    github: "jkshenton"
+    email: "kane.shenton@stfc.ac.uk"
+
+citations:
+  - key: "baias-2013-powder"
+    role: benchmark_method
+    title: "Powder crystallography of pharmaceutical materials by combined crystal structure prediction and solid-state 1H NMR spectroscopy"
+    authors:
+      - "Maria Baias"
+      - "Cory M. Widdifield"
+      - "Jean-Nicolas Dumez"
+      - "Hugh P. G. Thompson"
+      - "Timothy G. Cooper"
+      - "Elodie Salager"
+      - "Sirena Bassil"
+      - "Robin S. Stein"
+      - "Anne Lesage"
+      - "Graeme M. Day"
+      - "Lyndon Emsley"
+    year: 2013
+    doi: "10.1039/c3cp41095a"
+    url: null
+  - key: "cordova-2022-shiftml2"
+    role: reference_data
+    title: "A Machine Learning Model of Chemical Shifts for Chemically and Structurally Diverse Molecular Solids"
+    authors:
+      - "Manuel Cordova"
+      - "Edgar A. Engel"
+      - "Artur Stefaniuk"
+      - "Federico Paruzzo"
+      - "Albert Hofstetter"
+      - "Michele Ceriotti"
+      - "Lyndon Emsley"
+    year: 2022
+    doi: "10.1021/acs.jpcc.2c03854"
+    url: null
+  - key: "paruzzo-2018-shiftml"
+    role: inspired_by
+    title: "Chemical shifts in molecular solids by machine learning"
+    authors:
+      - "Federico M. Paruzzo"
+      - "Albert Hofstetter"
+      - "Félix Musil"
+      - "Sandip De"
+      - "Michele Ceriotti"
+      - "Lyndon Emsley"
+    year: 2018
+    doi: "10.1038/s41467-018-06972-x"
+    url: null
+  - key: "abbott-cookbook-shiftml-structure-match"
+    role: inspired_by
+    title: "NMR-shielding-driven structure determination with ShiftML3"
+    authors:
+      - "Joseph W. Abbott"
+      - "Matthias Kellner"
+    year: null
+    doi: null
+    url: "https://atomistic-cookbook.org/examples/shiftml-structure-match/shiftml-structure-match.html"

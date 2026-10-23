@@ -3,373 +3,14 @@ Models
 ======
 
 The machine-learned interatomic potentials (MLIPs) known to ML-PEG are listed
-below, with the configuration defined in ``ml_peg/models/models.yml``. Models
-marked *(not currently enabled)* are commented out in ``models.yml`` and are not
-run in the current benchmarks; they are listed here for completeness.
+below. Each entry is generated from ``ml_peg/models/models.yml``, so it always
+matches the configuration ML-PEG loads. Descriptions, and the families models
+are grouped into, are defined in ``docs/source/user_guide/model_notes.yml``.
 
 .. note::
 
    Citations and longer descriptions are still to be added for each model.
 
-MACE
-====
-
-mace-mp-0a
-----------
-
-.. code-block:: yaml
-
-   mace-mp-0a:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: "medium"
-
-mace-mp-0b3
------------
-
-.. code-block:: yaml
-
-   mace-mp-0b3:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: "medium-0b3"
-
-mace-mpa-0
-----------
-
-.. code-block:: yaml
-
-   mace-mpa-0:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: "medium-mpa-0"
-
-mace-omat-0
------------
-
-.. code-block:: yaml
-
-   mace-omat-0:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: "medium-omat-0"
-
-mace-matpes-r2scan
-------------------
-
-.. code-block:: yaml
-
-   mace-matpes-r2scan:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: false
-     level_of_theory: r2SCAN
-     kwargs:
-       model: "mace-matpes-r2scan-0"
-       head: "matpes_pbe"
-     dispersion_kwargs:
-       xc: r2scan
-       label: D4
-
-mace-mh-1-omat
---------------
-
-.. code-block:: yaml
-
-   mace-mh-1-omat:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: "mh-1"
-       head: omat_pbe
-
-
-MACE-OFF23(L)
--------------
-
-.. code-block:: yaml
-
-   MACE-OFF23(L):
-     module: mace.calculators
-     class_name: mace_off
-     device: "auto"
-     trained_on_dispersion: true
-     kwargs:
-       model: large
-
-
-MACE-OFF24(M)
--------------
-
-.. code-block:: yaml
-
-   MACE-OFF24(M):
-     module: mace.calculators
-     class_name: mace_off
-     device: "auto"
-     trained_on_dispersion: true
-     kwargs:
-       model: "https://raw.githubusercontent.com/ACEsuit/mace-off/main/mace_off24/MACE-OFF24_medium.model"
-
-
-mace-omol
----------
-
-.. code-block:: yaml
-
-   mace-omol:
-     module: mace.calculators
-     class_name: mace_omol
-     device: "auto"
-     trained_on_dispersion: true
-     level_of_theory: ωB97M-V/def2-TZVPD
-     kwargs:
-       model: "extra_large"
-
-mace-mh-1-omol
---------------
-
-.. code-block:: yaml
-
-   mace-mh-1-omol:
-     module: mace.calculators
-     class_name: mace_mp
-     device: "auto"
-     trained_on_dispersion: true
-     level_of_theory: ωB97M-V/def2-TZVPD
-     kwargs:
-       model: "mh-1"
-       head: omol
-
-mace-polar-1-s
---------------
-
-.. code-block:: yaml
-
-   mace-polar-1-s:
-     module: mace.calculators
-     class_name: mace_polar
-     device: "cpu"
-     trained_on_dispersion: true
-     level_of_theory: ωB97M-V
-     kwargs:
-       model: "polar-1-s"
-
-mace-polar-1-m
---------------
-
-.. code-block:: yaml
-
-   mace-polar-1-m:
-     module: mace.calculators
-     class_name: mace_polar
-     device: "cpu"
-     trained_on_dispersion: true
-     level_of_theory: ωB97M-V
-     kwargs:
-       model: "polar-1-m"
-
-mace-polar-1-l
---------------
-
-.. code-block:: yaml
-
-   mace-polar-1-l:
-     module: mace.calculators
-     class_name: mace_polar
-     device: "cpu"
-     trained_on_dispersion: true
-     level_of_theory: ωB97M-V
-     kwargs:
-       model: "polar-1-l"
-
-
-DPA
-===
-
-Install these fixed-float32 DeePMD checkpoints with ``uv sync --extra dpa``.
-DPA-3.3-1M uses OpenLAM-v1 with the OMat24 head and the DPA4 variants use OMat24.
-DPA-3.3-1M is CC-BY-4.0, while DPA4 is CC-BY-NC-4.0 and restricted to
-non-commercial use.
-
-dpa-3p3-1M-omat
-----------------
-
-.. code-block:: yaml
-
-   dpa-3p3-1M-omat:
-     module: deepmd.calculator
-     class_name: DP
-     datasets: [OpenLAM-v1, OMAT, MPtrj, OC20, OC22, ODAC23, SPICE2]
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: DPA-3.3-1M
-       head: Omat24
-
-dpa-4-nano-omat
----------------
-
-.. code-block:: yaml
-
-   dpa-4-nano-omat:
-     module: deepmd.calculator
-     class_name: DP
-     datasets: [OMAT]
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: DPA4-Nano-OMat24-v20260805
-
-dpa-4-neo-omat
---------------
-
-.. code-block:: yaml
-
-   dpa-4-neo-omat:
-     module: deepmd.calculator
-     class_name: DP
-     datasets: [OMAT]
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: DPA4-Neo-OMat24-v20260805
-
-dpa-4-plus-omat
----------------
-
-.. code-block:: yaml
-
-   dpa-4-plus-omat:
-     module: deepmd.calculator
-     class_name: DP
-     datasets: [OMAT]
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       model: DPA4-Plus-OMat24-v20260805
-
-Orb
-===
-
-orb-v3-consv-inf-omat
----------------------
-
-.. code-block:: yaml
-
-   orb-v3-consv-inf-omat:
-     module: orb_models.inference.calculator
-     class_name: OrbCalc
-     device: "cpu"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       name: "orb_v3_conservative_inf_omat"
-
-orb-v3-direct-inf-omat
-----------------------
-
-.. code-block:: yaml
-
-   orb-v3-direct-inf-omat:
-     module: orb_models.inference.calculator
-     class_name: OrbCalc
-     device: "cpu"
-     trained_on_dispersion: false
-     level_of_theory: PBE
-     kwargs:
-       name: "orb_v3_direct_inf_omat"
-
-orb-v3-consv-omol
------------------
-
-.. code-block:: yaml
-
-   orb-v3-consv-omol:
-     module: orb_models.forcefield.inference.calculator
-     class_name: OrbCalc
-     device: "cpu"
-     trained_on_dispersion: true
-     level_of_theory: PBE
-     kwargs:
-       name: "orb_v3_conservative_omol"
-
-
-PET
-===
-
-pet-mad
--------
-
-.. code-block:: yaml
-
-  pet-mad:
-    module: upet.calculator
-    class_name: UPETCalculator
-    device: "cpu"
-    trained_on_dispersion: false
-    level_of_theory: PBEsol
-    kwargs:
-      model: "pet-mad-s"
-      version: "1.0.2"
-    dispersion_kwargs:
-      xc: pbesol
-
-pet-mad-s-1p5
--------------
-
-.. code-block:: yaml
-
-  pet-mad-s-1p5:
-    module: upet.calculator
-    class_name: UPETCalculator
-    device: "cpu"
-    trained_on_dispersion: false
-    level_of_theory: r2SCAN
-    kwargs:
-      model: "pet-mad-s"
-      version: "1.5.0"
-    dispersion_kwargs:
-      xc: r2scan
-
-pet-oam-xl
-----------
-
-.. code-block:: yaml
-
-  pet-oam-xl:
-    module: upet.calculator
-    class_name: UPETCalculator
-    device: "cpu"
-    trained_on_dispersion: False
-    level_of_theory: PBE
-    kwargs:
-      model: "pet-oam-xl"
-      version: "1.0.0"
-
-
-UMA (FairChem)
-==============
 
 uma-s-1p1-omat
 --------------
@@ -526,6 +167,49 @@ sevennet-omni-mpa
     kwargs:
       model: "7net-omni"
       modal: "mpa"
+
+
+ShiftML (NMR shielding models)
+==============================
+
+These models predict NMR chemical shieldings, not energies and forces, and are used
+only by the :doc:`NMR Models – Organic Materials </user_guide/benchmarks/nmr_organic_materials>`
+benchmarks. They are configured in ``ml_peg/models/nmr_models.yml`` rather than
+``models.yml``, and installed with the ``shiftml`` extra.
+
+ShiftML3
+--------
+
+Trained on periodic GIPAW-PBE shielding tensors. M. Kellner et al., J. Phys. Chem.
+Lett. 16, 8714 (2025).
+
+.. code-block:: yaml
+
+  ShiftML3:
+    module: shiftml.ase
+    class_name: ShiftML
+    device: cpu
+    level_of_theory: PBE
+    kwargs:
+      model_version: ShiftML3
+
+ShiftML4
+--------
+
+Trained on GIPAW-PBE shielding tensors plus a PBE0-minus-PBE correction computed on
+each isolated molecule. M. Kellner et al., arXiv:2608.21313 (2026).
+
+.. code-block:: yaml
+
+  ShiftML4:
+    module: shiftml.ase
+    class_name: ShiftML
+    device: cpu
+    level_of_theory: PBE+ΔPBE0(monomer)
+    kwargs:
+      model_version: ShiftML4
+=======
+.. model-registry::
 
 
 ShiftML (NMR shielding models)

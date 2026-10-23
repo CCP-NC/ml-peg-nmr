@@ -5,6 +5,7 @@ ShiftML3:
   module: shiftml.ase
   class_name: ShiftML
   device: cpu
+  trained_on_dispersion: true
   level_of_theory: PBE
   datasets: null
   additional_supported_elements: [H, C, N, O, S, F, P, Cl, Na, Ca, Mg, K]
@@ -15,6 +16,7 @@ ShiftML4:
   module: shiftml.ase
   class_name: ShiftML
   device: cpu
+  trained_on_dispersion: true
   level_of_theory: PBE+ΔPBE0(monomer)
   datasets: null
   additional_supported_elements: [H, C, N, O, S, F, P, Cl, Na, Ca, Mg, K]

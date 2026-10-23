@@ -86,6 +86,9 @@ upet = [
 sevenn = [
     "sevenn==0.12.1",
 ]
+shiftml = [
+    "shiftml==0.2.0",
+]
 vivace = [
     "simpoly[vivace,cuda13]; sys_platform == 'linux'",
     "simpoly[vivace]; sys_platform != 'linux'",
@@ -243,6 +246,10 @@ conflicts = [
     [
       { extra = "vivace" },
       { extra = "mace" },
+    ],
+    [
+        { extra = "shiftml" },
+        { extra = "upet" },
     ],
 ]
 

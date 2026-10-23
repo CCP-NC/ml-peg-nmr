@@ -5,12 +5,18 @@ from __future__ import annotations
 from collections.abc import Iterable
 from copy import deepcopy
 from functools import lru_cache
+from importlib import import_module
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+from warnings import warn
 
 import yaml
 
 from ml_peg.models import models_file
+from ml_peg.models.mock import MockErrorShieldingPredictor, MockShieldingPredictor
+
+if TYPE_CHECKING:
+    from ml_peg.models.models import Precision
 
 
 @lru_cache(maxsize=1)
@@ -290,3 +296,93 @@ def get_model_names(
         model_names.append(name)
 
     return model_names
+
+
+# NMR shielding models (not interatomic potentials). They are loaded from their own
+# list, so that the MLIP benchmarks never run them and they never run the MLIP
+# benchmarks. They provide shielding predictions instead of an ASE calculator, and
+# ml-peg's mock entries map to the shielding mocks in ``ml_peg.models.mock``.
+NMR_MODELS_FILE = Path(__file__).parent / "nmr_models.yml"
+MOCK_MODULE = "ml_peg.models.mock"
+MOCK_CONFIG = {"module": MOCK_MODULE, "class_name": "MockCalculator"}
+
+
+def get_nmr_models(
+    models: None | str | Iterable = None,
+) -> dict[str, dict[str, Any]]:
+    """
+    Get NMR model configurations, optionally restricted to a selection.
+
+    Models come from ``nmr_models.yml``. A models file made of ml-peg mock entries
+    (``--models-file ml_peg/models/mock_error.yml``) is used as given, to test
+    failure handling.
+
+    Parameters
+    ----------
+    models
+        Model names, comma-separated or as a list (e.g. from ``--models``). Names
+        that are not NMR models (e.g. MLIPs selected for other benchmarks) are
+        ignored. Default is None, which selects every model in
+        ``nmr_models.yml``.
+
+    Returns
+    -------
+    dict[str, dict[str, Any]]
+        Model name to configuration.
+    """
+    from ml_peg import models as settings
+
+    if settings.mock_only and not settings.run_mock:
+        raise ValueError("Cannot set `mock_only` without `run_mock`")
+    chosen = {"mock": MOCK_CONFIG} if settings.run_mock else {}
+    if settings.mock_only:
+        return chosen
+
+    given = _load_models_yaml(settings.models_file)
+    mocks = {n: c for n, c in given.items() if c.get("module") == MOCK_MODULE}
+    all_models = mocks if mocks and len(mocks) == len(given) else None
+    if all_models is None:
+        all_models = _load_models_yaml(NMR_MODELS_FILE)
+    if models is None:
+        return chosen | dict(all_models)
+    selected = models.split(",") if isinstance(models, str) else list(models)
+    picked = {name: cfg for name, cfg in all_models.items() if name in selected}
+    if not picked:
+        warn(
+            f"None of the selected models ({', '.join(selected)}) is an NMR model in "
+            f"{NMR_MODELS_FILE.name}; the NMR benchmarks will not run.",
+            stacklevel=2,
+        )
+    return chosen | picked
+
+
+def load_nmr_predictor(config: dict[str, Any], *, precision: Precision) -> Any:
+    """
+    Instantiate a shielding predictor from its configuration.
+
+    Parameters
+    ----------
+    config
+        Entry from ``nmr_models.yml``, or an ml-peg mock entry.
+    precision
+        Unused precision argument, kept for the common model API (checked, as for
+        the MLIP wrappers). ShiftML has no dtype option, so it runs at its native
+        precision for both "low" and "high".
+
+    Returns
+    -------
+    Any
+        Object providing ``get_cs_iso_ensemble(atoms)`` and
+        ``get_cs_tensor_ensemble(atoms)``.
+    """
+    from ml_peg.models.models import check_precision
+
+    check_precision(precision)
+    if config.get("module") == MOCK_MODULE:
+        mocks = {
+            "MockCalculator": MockShieldingPredictor,
+            "MockErrorCalculator": MockErrorShieldingPredictor,
+        }
+        return mocks[config["class_name"]]()
+    predictor = getattr(import_module(config["module"]), config["class_name"])
+    return predictor(**config.get("kwargs", {}), device=config.get("device", "cpu"))

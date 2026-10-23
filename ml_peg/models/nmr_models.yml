@@ -1,0 +1,22 @@
+# NMR chemical-shielding models (not interatomic potentials): they predict
+# shieldings, not energies and forces, so they are kept out of models.yml.
+
+ShiftML3:
+  module: shiftml.ase
+  class_name: ShiftML
+  device: cpu
+  level_of_theory: PBE
+  datasets: null
+  additional_supported_elements: [H, C, N, O, S, F, P, Cl, Na, Ca, Mg, K]
+  kwargs:
+    model_version: ShiftML3
+
+ShiftML4:
+  module: shiftml.ase
+  class_name: ShiftML
+  device: cpu
+  level_of_theory: PBE+ΔPBE0(monomer)
+  datasets: null
+  additional_supported_elements: [H, C, N, O, S, F, P, Cl, Na, Ca, Mg, K]
+  kwargs:
+    model_version: ShiftML4

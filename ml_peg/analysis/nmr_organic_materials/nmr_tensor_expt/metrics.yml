@@ -1,0 +1,50 @@
+metrics:
+  ¹³C tensor RMSE:
+    good: 3.7
+    bad: 8.6
+    unit: ppm
+    weight: 1
+    tooltip: "Predicted δ11, δ22 and δ33 together against experiment (118 sites in 19 crystals), after one linear shielding-to-shift fit"
+    level_of_theory: Experimental
+  ¹³C tensor MAE:
+    good: 2.9
+    bad: 6.7
+    unit: ppm
+    weight: 1
+    tooltip: "Mean absolute error of predicted δ11, δ22 and δ33 together (118 sites in 19 crystals), about the same fitted line"
+    level_of_theory: Experimental
+  Isotropic shift δiso RMSE:
+    good: 2.2
+    bad: 5.1
+    unit: ppm
+    weight: 0
+    tooltip: "δiso = (δ11 + δ22 + δ33)/3 from the same tensors and fitted line. Not scored (weight 0)"
+    level_of_theory: Experimental
+  Reduced anisotropy ζ RMSE:
+    good: 3.0
+    bad: 7.0
+    unit: ppm
+    weight: 0
+    tooltip: "Reduced anisotropy ζ = δzz − δiso (Haeberlen), measured along the experiment's δzz. Read with η. Not scored (weight 0)"
+    level_of_theory: Experimental
+  Asymmetry η RMSE:
+    good: 0.11
+    bad: 0.25
+    unit: null
+    weight: 0
+    tooltip: "Asymmetry η = (δyy − δxx)/ζ (Haeberlen), with each tensor's δxx, δyy, δzz taken from its own components, so η stays between 0 and 1. Read with ζ. Not scored (weight 0)"
+    level_of_theory: Experimental
+  Span Ω RMSE:
+    good: 5.9
+    bad: 13.9
+    unit: ppm
+    weight: 0
+    tooltip: "Span Ω = δ11 − δ33 (Herzfeld–Berger). Read with κ. Not scored (weight 0)"
+    level_of_theory: Experimental
+  Skew κ RMSE:
+    good: 0.13
+    bad: 0.30
+    unit: null
+    weight: 0
+    tooltip: "Skew κ = 3(δ22 − δiso)/Ω (Herzfeld–Berger). Read with Ω. Not scored (weight 0)"
+    level_of_theory: Experimental

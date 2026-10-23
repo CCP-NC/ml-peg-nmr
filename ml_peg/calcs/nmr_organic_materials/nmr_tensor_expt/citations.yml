@@ -1,0 +1,46 @@
+implementers:
+  - name: "Sathya Sai Seetharaman"
+    github: "Sathya-S3"
+    email: "sathya-sai.seetharaman@stfc.ac.uk"
+
+contributors:
+  - name: "Kane Shenton"
+    github: "jkshenton"
+    email: "kane.shenton@stfc.ac.uk"
+
+citations:
+  - key: "kellner-2025-shiftml3"
+    role: benchmark_method
+    title: "A Deep Learning Model for Chemical Shieldings in Molecular Organic Solids Including Anisotropy"
+    authors:
+      - "Matthias Kellner"
+      - "Jacob B. Holmes"
+      - "Ruben Rodriguez Madrid"
+      - "Florian Viscosi"
+      - "Yuxuan Zhang"
+      - "Lyndon Emsley"
+      - "Michele Ceriotti"
+    year: 2025
+    doi: "10.1021/acs.jpclett.5c01819"
+    url: null
+  - key: "hartman-2015-fragment"
+    role: reference_data
+    title: "Fragment based 13C nuclear magnetic resonance chemical shift predictions in molecular crystals: An alternative to planewave methods"
+    authors:
+      - "Joshua D. Hartman"
+      - "Stephen Monaco"
+      - "Bohdan Schatschneider"
+      - "Gregory J. O. Beran"
+    year: 2015
+    doi: "10.1063/1.4922649"
+    url: null
+  - key: "ramos-2024-functional"
+    role: reference_data
+    title: "The interplay of density functional selection and crystal structure for accurate NMR chemical shift predictions"
+    authors:
+      - "Sebastian A. Ramos"
+      - "Leonard J. Mueller"
+      - "Gregory J. O. Beran"
+    year: 2024
+    doi: "10.1039/D4FD00072B"
+    url: null

@@ -17,6 +17,7 @@ Benchmarks
     molecular_reactions
     nebs
     non_covalent_interactions
+    nmr_organic_materials
     physicality
     porous_materials
     supramolecular

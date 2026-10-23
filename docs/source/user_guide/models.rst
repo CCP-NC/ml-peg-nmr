@@ -526,3 +526,44 @@ sevennet-omni-mpa
     kwargs:
       model: "7net-omni"
       modal: "mpa"
+
+
+ShiftML (NMR shielding models)
+==============================
+
+These models predict NMR chemical shieldings, not energies and forces, and are used
+only by the :doc:`NMR Models – Organic Materials </user_guide/benchmarks/nmr_organic_materials>`
+benchmarks. They are configured in ``ml_peg/models/nmr_models.yml`` rather than
+``models.yml``, and installed with the ``shiftml`` extra.
+
+ShiftML3
+--------
+
+Trained on periodic GIPAW-PBE shielding tensors. M. Kellner et al., J. Phys. Chem.
+Lett. 16, 8714 (2025).
+
+.. code-block:: yaml
+
+  ShiftML3:
+    module: shiftml.ase
+    class_name: ShiftML
+    device: cpu
+    level_of_theory: PBE
+    kwargs:
+      model_version: ShiftML3
+
+ShiftML4
+--------
+
+Trained on GIPAW-PBE shielding tensors plus a PBE0-minus-PBE correction computed on
+each isolated molecule. M. Kellner et al., arXiv:2608.21313 (2026).
+
+.. code-block:: yaml
+
+  ShiftML4:
+    module: shiftml.ase
+    class_name: ShiftML
+    device: cpu
+    level_of_theory: PBE+ΔPBE0(monomer)
+    kwargs:
+      model_version: ShiftML4

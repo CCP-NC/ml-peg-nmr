@@ -12,8 +12,10 @@ import pytest
 
 from ml_peg.analysis.utils.decorators import build_table, plot_parity
 from ml_peg.analysis.utils.nmr import (
+    csa_params,
     label_model_column,
     plot_shielding_fit,
+    principal,
     weighted_fit,
     write_structures,
 )
@@ -86,28 +88,6 @@ SITE_HOVER = {
 COMPONENT_HOVER = {
     key: [v for v in values for _ in COMPONENTS] for key, values in SITE_HOVER.items()
 } | {"Component": list(COMPONENTS) * len(SITES)}
-
-
-def principal(tensors: np.ndarray) -> np.ndarray:
-    """
-    Get principal shieldings of flattened 3 x 3 tensors.
-
-    Parameters
-    ----------
-    tensors
-        Array of shape (n, 9), row-major.
-
-    Returns
-    -------
-    np.ndarray
-        Eigenvalues of the symmetric parts, ascending, shape (n, 3); NaN for
-        tensors with missing values (failed predictions).
-    """
-    t = tensors.reshape(-1, 3, 3)
-    values = np.full((len(t), 3), np.nan)
-    ok = np.isfinite(t).all(axis=(1, 2))
-    values[ok] = np.linalg.eigvalsh((t[ok] + t[ok].transpose(0, 2, 1)) / 2)
-    return values
 
 
 def reference_components() -> np.ndarray:
@@ -198,50 +178,6 @@ def tensor_errors(sigma: np.ndarray) -> tuple[float, float]:
     """
     a, b, rmse = fit(sigma)
     return rmse, float(np.abs(EXPT - (a * sigma + b)).mean())
-
-
-def csa_params(delta: np.ndarray, zz: np.ndarray | None = None) -> dict:
-    """
-    Get CSA parameters of shift tensors from their principal components.
-
-    Haeberlen ordering takes as dzz the component farthest from diso, which is
-    always d11 or d33; dyy is always d22, and dxx is the remaining one.
-
-    Parameters
-    ----------
-    delta
-        Principal shifts, shape (sites, 3), any order.
-    zz
-        Which component to use as dzz per site, as an index in descending order
-        (0 = d11, 2 = d33). Default is each tensor's own Haeberlen choice.
-
-    Returns
-    -------
-    dict[str, np.ndarray]
-        ``iso`` (ppm), ``zeta`` (ppm), ``eta``, ``span`` (ppm), ``skew`` and
-        ``zz`` (the dzz index used), one value per site. ``eta`` =
-        (dyy - dxx)/zeta, where dxx is the end component that is not dzz; it lies
-        in [0, 1] with each tensor's own ordering.
-    """
-    d = -np.sort(-delta, axis=1)  # d11 >= d22 >= d33
-    iso = d.mean(axis=1)
-    if zz is None:
-        # The farther of d11 and d33 from diso (d11 on an exact tie).
-        zz = np.where(d[:, 0] - iso >= iso - d[:, 2], 0, 2)
-    rows = np.arange(len(d))
-    zeta = d[rows, zz] - iso
-    xx = d[rows, 2 - zz]  # the other end component
-    span = d[:, 0] - d[:, 2]
-    return {
-        "iso": iso,
-        "zeta": zeta,
-        "eta": np.divide(d[:, 1] - xx, zeta, out=np.zeros_like(zeta), where=zeta != 0),
-        "span": span,
-        "skew": np.divide(
-            3 * (d[:, 1] - iso), span, out=np.zeros_like(span), where=span != 0
-        ),
-        "zz": zz,
-    }
 
 
 EXPT_CSA = csa_params(EXPT)

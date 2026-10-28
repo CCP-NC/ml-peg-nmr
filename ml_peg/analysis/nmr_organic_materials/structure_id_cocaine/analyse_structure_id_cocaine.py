@@ -14,6 +14,7 @@ import pytest
 
 from ml_peg.analysis.utils.decorators import build_table, plot_parity
 from ml_peg.analysis.utils.nmr import (
+    identification,
     label_model_column,
     plot_shielding_fit,
     trace_colour,
@@ -113,28 +114,6 @@ def rmse_vs_expt(sigma: np.ndarray) -> float:
     return float(np.sqrt(np.mean((predicted_shifts(sigma) - Y) ** 2)))
 
 
-def identification(rmse: np.ndarray) -> tuple[int, float]:
-    """
-    Rank of the correct structure and its identification margin.
-
-    Parameters
-    ----------
-    rmse
-        RMSE against experiment for every candidate.
-
-    Returns
-    -------
-    tuple[int, float]
-        Rank (1 = lowest RMSE) and margin (best wrong candidate's RMSE minus the
-        correct structure's; NaN if any candidate failed).
-    """
-    if np.isnan(rmse).any():
-        return np.nan, np.nan
-    rank = int(np.flatnonzero(np.argsort(rmse) == CORRECT_CANDIDATE)[0]) + 1
-    wrong = np.delete(rmse, CORRECT_CANDIDATE)
-    return rank, float(wrong.min() - rmse[CORRECT_CANDIDATE])
-
-
 @pytest.fixture(scope="module")
 def candidates() -> dict:
     """
@@ -189,7 +168,7 @@ def results(candidates: dict) -> dict:
     out = {"names": candidates["names"], "methods": {}}
     for method, sigma in candidates["sigma"].items():
         rmse = np.array([rmse_vs_expt(s) for s in sigma])
-        rank, margin = identification(rmse)
+        rank, margin = identification(rmse, CORRECT_CANDIDATE)
         out["methods"][method] = {
             "rmse_vs_expt": rmse.round(4).tolist(),
             "rank": rank,

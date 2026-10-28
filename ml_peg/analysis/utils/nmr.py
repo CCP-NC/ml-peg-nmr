@@ -236,3 +236,98 @@ def write_structures(
         write(out_dir / f"{name}.xyz", bare, format="extxyz")
         urls[name] = f"{url_prefix}/{name}.xyz"
     return urls
+
+
+# Benchmark-specific calculations, kept here rather than in their analysis modules
+# so that they can be unit-tested: the analysis modules download their input data
+# when imported, these functions need none.
+
+
+def principal(tensors: np.ndarray) -> np.ndarray:
+    """
+    Get principal shieldings of flattened 3 x 3 tensors.
+
+    Parameters
+    ----------
+    tensors
+        Array of shape (n, 9), row-major.
+
+    Returns
+    -------
+    np.ndarray
+        Eigenvalues of the symmetric parts, ascending, shape (n, 3); NaN for
+        tensors with missing values (failed predictions).
+    """
+    t = tensors.reshape(-1, 3, 3)
+    values = np.full((len(t), 3), np.nan)
+    ok = np.isfinite(t).all(axis=(1, 2))
+    values[ok] = np.linalg.eigvalsh((t[ok] + t[ok].transpose(0, 2, 1)) / 2)
+    return values
+
+
+def csa_params(delta: np.ndarray, zz: np.ndarray | None = None) -> dict:
+    """
+    Get CSA parameters of shift tensors from their principal components.
+
+    Haeberlen ordering takes as dzz the component farthest from diso, which is
+    always d11 or d33; dyy is always d22, and dxx is the remaining one.
+
+    Parameters
+    ----------
+    delta
+        Principal shifts, shape (sites, 3), any order.
+    zz
+        Which component to use as dzz per site, as an index in descending order
+        (0 = d11, 2 = d33). Default is each tensor's own Haeberlen choice.
+
+    Returns
+    -------
+    dict[str, np.ndarray]
+        ``iso`` (ppm), ``zeta`` (ppm), ``eta``, ``span`` (ppm), ``skew`` and
+        ``zz`` (the dzz index used), one value per site. ``eta`` =
+        (dyy - dxx)/zeta, where dxx is the end component that is not dzz; it lies
+        in [0, 1] with each tensor's own ordering.
+    """
+    d = -np.sort(-delta, axis=1)  # d11 >= d22 >= d33
+    iso = d.mean(axis=1)
+    if zz is None:
+        # The farther of d11 and d33 from diso (d11 on an exact tie).
+        zz = np.where(d[:, 0] - iso >= iso - d[:, 2], 0, 2)
+    rows = np.arange(len(d))
+    zeta = d[rows, zz] - iso
+    xx = d[rows, 2 - zz]  # the other end component
+    span = d[:, 0] - d[:, 2]
+    return {
+        "iso": iso,
+        "zeta": zeta,
+        "eta": np.divide(d[:, 1] - xx, zeta, out=np.zeros_like(zeta), where=zeta != 0),
+        "span": span,
+        "skew": np.divide(
+            3 * (d[:, 1] - iso), span, out=np.zeros_like(span), where=span != 0
+        ),
+        "zz": zz,
+    }
+
+
+def identification(rmse: np.ndarray, correct: int) -> tuple[int, float]:
+    """
+    Rank of the correct structure and its identification margin.
+
+    Parameters
+    ----------
+    rmse
+        RMSE against experiment for every candidate.
+    correct
+        Index of the correct candidate.
+
+    Returns
+    -------
+    tuple[int, float]
+        Rank (1 = lowest RMSE) and margin (best wrong candidate's RMSE minus the
+        correct structure's; NaN if any candidate failed).
+    """
+    if np.isnan(rmse).any():
+        return np.nan, np.nan
+    rank = int(np.flatnonzero(np.argsort(rmse) == correct)[0]) + 1
+    wrong = np.delete(rmse, correct)
+    return rank, float(wrong.min() - rmse[correct])

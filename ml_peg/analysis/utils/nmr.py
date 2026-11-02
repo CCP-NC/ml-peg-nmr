@@ -288,7 +288,7 @@ def csa_params(delta: np.ndarray, zz: np.ndarray | None = None) -> dict:
         (dyy - dxx)/zeta, where dxx is the end component that is not dzz; it lies
         in [0, 1] with each tensor's own ordering.
     """
-    d = -np.sort(-delta, axis=1)  # d11 >= d22 >= d33
+    d = -np.sort(-np.asarray(delta, dtype=float), axis=1)  # d11 >= d22 >= d33
     iso = d.mean(axis=1)
     if zz is None:
         # The farther of d11 and d33 from diso (d11 on an exact tie).

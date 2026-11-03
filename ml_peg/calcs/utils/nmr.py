@@ -71,10 +71,19 @@ def read_structure(struct_dir: Path) -> tuple[Atoms, Atoms]:
         The reference (with the ``ms`` shielding-tensor array) and a bare copy
         carrying only species, positions and cell, which is what reaches the
         model.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the directory has no ``.magres`` file.
+    ValueError
+        If the directory has more than one ``.magres`` file.
     """
     magres = sorted(struct_dir.glob("*.magres"))
-    if len(magres) != 1:
-        raise FileNotFoundError(
+    if not magres:
+        raise FileNotFoundError(f"No .magres file in {struct_dir}")
+    if len(magres) > 1:
+        raise ValueError(
             f"Expected one .magres file in {struct_dir}, found {len(magres)}"
         )
     reference = read(magres[0])

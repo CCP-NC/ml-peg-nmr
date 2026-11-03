@@ -10,6 +10,7 @@ import pytest
 
 from ml_peg.analysis.utils.decorators import plot_parity
 from ml_peg.app.utils import build_callbacks
+from ml_peg.app.utils.weas import generate_weas_html
 
 
 @pytest.mark.parametrize(
@@ -119,3 +120,49 @@ def test_structure_lookup_preserves_mapping_and_template_modes(
     callbacks[0]({"points": [{"pointNumber": 2, "customdata": ["formula", "mp-1"]}]})
 
     assert rendered == [(expected_file, mode, expected_index)]
+
+
+# Optional atom highlight in the structure viewer: a benchmark whose points are
+# single atomic sites (e.g. NMR shifts) can mark the clicked atom in the crystal.
+# These check that the right atoms are passed for the clicked point, and that the
+# viewer HTML is unchanged when no highlight is given, so other benchmarks are
+# unaffected (the test above checks their calls are unchanged).
+def test_structure_lookup_passes_highlight_for_clicked_point(monkeypatch) -> None:
+    """The structure viewer receives the highlight of the clicked point."""
+    callbacks = []
+
+    def capture_callback(*_args, **_kwargs):
+        def register(func):
+            callbacks.append(func)
+            return func
+
+        return register
+
+    rendered = []
+
+    def render(filename, selected_mode, index, highlight=None):
+        rendered.append((filename, index, highlight))
+        return "structure viewer"
+
+    monkeypatch.setattr(build_callbacks, "callback", capture_callback)
+    monkeypatch.setattr(
+        build_callbacks, "_register_point_highlight", lambda *a, **k: None
+    )
+    monkeypatch.setattr(build_callbacks, "generate_weas_html", render)
+    build_callbacks.struct_from_scatter(
+        "scatter", "viewer", ["a.xyz", "b.xyz", "c.xyz"], highlights=[[0], [1, 2], [3]]
+    )
+    callbacks[0]({"points": [{"pointNumber": 1}]})
+    callbacks[0]({"points": [{"pointNumber": 2, "customdata": ["formula", "mp-1"]}]})
+
+    assert rendered == [("b.xyz", 0, [1, 2]), ("c.xyz", 0, [3])]
+
+
+def test_weas_html_contains_highlight_only_when_given():
+    """The viewer's HTML highlights atoms only when a highlight is given."""
+    with_h = generate_weas_html("s.xyz", "struct", 0, highlight=[3, 5])
+    without = generate_weas_html("s.xyz", "struct", 0)
+
+    assert 'addSetting("site"' in with_h
+    assert "indices: [3, 5]" in with_h
+    assert "highlightManager" not in without

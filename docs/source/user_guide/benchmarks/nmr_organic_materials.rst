@@ -78,19 +78,26 @@ structures (by under 1% for ¹H and ¹³C, and about 3% for ¹⁵N).
 Computational cost
 ------------------
 
-Low. Measured on 2026-10-01, one model per process, on 4 threads of an AMD EPYC 7452 CPU
-(49 structures, 4415 atoms):
+Low. Measured on 2026-11-04 with ``ml_peg calc --durations=0``, once on 4 cores of an
+AMD EPYC 7452 CPU and once on an NVIDIA RTX PRO 6000 Blackwell Server Edition GPU
+(96 GB, ``device: cuda``). Times per benchmark, including model load:
 
-======== ========= ============== ===========
-Model    Load (s)  Prediction (s) Peak memory
-======== ========= ============== ===========
-ShiftML3 3.8       146            1.1 GB
-ShiftML4 3.5       110            1.1 GB
-======== ========= ============== ===========
+======== ====== ========= ====== ======= =======
+Model    Device Isotropic Tensor Cocaine Total
+======== ====== ========= ====== ======= =======
+ShiftML3 CPU    153 s     59 s   155 s   6.1 min
+ShiftML4 CPU    128 s     51 s   135 s   5.3 min
+ShiftML3 GPU    18 s      13 s   14 s    45 s
+ShiftML4 GPU    13 s      11 s   12 s    36 s
+======== ====== ========= ====== ======= =======
+
+Peak memory on the CPU is about 1.1 GB per model.
 
 ShiftML4 is faster because its committee has 7 members to ShiftML3's 8. Times depend
 on the hardware and thread count. The input data (0.25 MB) is downloaded once and
-cached.
+cached. ShiftML downloads its model weights (15 files of about 10 MB, from Zenodo) on
+first use and caches them; on a slow connection this can take longer than the
+calculations.
 
 
 Data availability

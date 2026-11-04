@@ -29,6 +29,14 @@ from ml_peg.models.get_models import get_model_names
 MODELS = get_model_names(current_models)
 BENCHMARK = Path("nmr_organic_materials") / "structure_id_cocaine"
 CALC_PATH = CALCS_ROOT / BENCHMARK / "outputs"
+# Skip, rather than write a table of empty rows, when no selected model has outputs:
+# the calculation has not run, or the analysis was run without the NMR models file.
+if not any((CALC_PATH / model).exists() for model in MODELS):
+    pytest.skip(
+        f"No outputs in {CALC_PATH} for the selected models. Please run the "
+        "calculation, and analyse with --models-file ml_peg/models/nmr_models.yml.",
+        allow_module_level=True,
+    )
 # Experimental reference data, from the benchmark's input zip.
 DATA_PATH = (
     download_s3_data(

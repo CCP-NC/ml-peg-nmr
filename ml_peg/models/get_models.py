@@ -584,7 +584,9 @@ def load_nmr_predictor(config: dict[str, Any], *, precision: Precision) -> Any:
     Parameters
     ----------
     config
-        Entry from ``nmr_models.yml``, or an ml-peg mock entry.
+        Entry from ``nmr_models.yml``, or an ml-peg mock entry. Its ``device``
+        is passed to the predictor; ``"auto"`` (the default) becomes ``None``,
+        which ShiftML resolves to CUDA when available, else CPU.
     precision
         Unused precision argument, kept for the common model API (checked, as for
         the MLIP wrappers). ShiftML has no dtype option, so it runs at its native
@@ -606,4 +608,7 @@ def load_nmr_predictor(config: dict[str, Any], *, precision: Precision) -> Any:
         }
         return mocks[config["class_name"]]()
     predictor = getattr(import_module(config["module"]), config["class_name"])
-    return predictor(**config.get("kwargs", {}), device=config.get("device", "cpu"))
+    device = config.get("device", "auto")
+    return predictor(
+        **config.get("kwargs", {}), device=None if device == "auto" else device
+    )

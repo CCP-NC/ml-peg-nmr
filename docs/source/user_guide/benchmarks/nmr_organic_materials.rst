@@ -80,7 +80,8 @@ Computational cost
 
 Low. Measured on 2026-11-04 with ``ml_peg calc --durations=0``, once on 4 cores of an
 AMD EPYC 7452 CPU and once on an NVIDIA RTX PRO 6000 Blackwell Server Edition GPU
-(96 GB, ``device: cuda``). Times per benchmark, including model load:
+(96 GB; ``device: "auto"`` in ``nmr_models.yml`` picks the GPU when
+there is one). Times per benchmark, including model load:
 
 ======== ====== ========= ====== ======= =======
 Model    Device Isotropic Tensor Cocaine Total

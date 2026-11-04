@@ -4,7 +4,7 @@
 ShiftML3:
   module: shiftml.ase
   class_name: ShiftML
-  device: cpu
+  device: "auto"
   trained_on_dispersion: true
   level_of_theory: PBE
   datasets: null
@@ -15,7 +15,7 @@ ShiftML3:
 ShiftML4:
   module: shiftml.ase
   class_name: ShiftML
-  device: cpu
+  device: "auto"
   trained_on_dispersion: true
   level_of_theory: PBE+ΔPBE0(monomer)
   datasets: null

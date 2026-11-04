@@ -130,7 +130,7 @@ def test_load_nmr_predictor_passes_registry_config(name, fake_shiftml):
     calls = fake_shiftml
     predictor = load_nmr_predictor(NMR_REGISTRY[name], precision="high")
 
-    assert calls[-1] == {"model_version": name, "device": "cpu"}
+    assert calls[-1] == {"model_version": name, "device": None}
     # The fake committee predicts 1, 2 and 3 for each atom, so the mean is 2.
     iso = predictor.get_cs_iso_ensemble(molecule("H2O"))
     assert iso.mean(axis=1) == pytest.approx([2, 2, 2])
